@@ -83,7 +83,7 @@ function scoreCandidate(
     score += tasteMatches.length * 10
     reasons.push(...tasteMatches.slice(0, 2).map((tag) => `符合“${tag}”`))
   }
-  if (requirements.pricePreference === 'low' && (item.price_bucket === 'low' || (item.exact_price !== null && item.exact_price <= 25))) {
+  if (requirements.pricePreference === '10_30' && (item.price_range === '10_30' || (item.exact_price !== null && item.exact_price <= 30))) {
     score += 12
     reasons.push('价格比较轻松')
   }

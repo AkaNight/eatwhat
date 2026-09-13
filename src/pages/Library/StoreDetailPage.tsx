@@ -105,7 +105,7 @@ export function StoreDetailPage() {
         name: value.name,
         item_type: value.itemType,
         exact_price: value.exactPrice,
-        price_bucket: value.priceBucket,
+        price_range: value.priceRange,
         category_tags: value.categoryTags,
         taste_tags: value.tasteTags,
         note: value.note,

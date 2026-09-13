@@ -9,7 +9,7 @@ export type Json =
 export type StoreStatus = 'active' | 'blacklisted'
 export type ItemType = 'meal' | 'snack' | 'drink' | 'side'
 export type ItemStatus = 'active' | 'blacklisted'
-export type PriceBucket = 'low' | 'medium' | 'high'
+export type PriceRange = '10_30' | '30_50' | '50_80' | '80_100' | '100_plus'
 export type OrderVerdict = 'edible' | 'reject'
 export type OrderSource = 'manual' | 'screenshot'
 export type PreferenceScope = 'long_term' | 'temporary'
@@ -34,7 +34,7 @@ export type ItemRow = {
   name: string
   item_type: ItemType
   exact_price: number | null
-  price_bucket: PriceBucket | null
+  price_range: PriceRange | null
   status: ItemStatus
   reject_reason: string | null
   note: string | null
@@ -50,7 +50,7 @@ export type OrderRow = {
   store_id: string
   ordered_at: string
   total_paid: number | null
-  price_bucket: PriceBucket | null
+  price_range: PriceRange | null
   verdict: OrderVerdict
   note: string | null
   source: OrderSource
@@ -108,12 +108,12 @@ export type StoreInsert = Omit<StoreRow, Timestamps | 'status' | 'blacklist_reas
   Partial<Pick<StoreRow, Timestamps | 'status' | 'blacklist_reason' | 'note'>>
 export type StoreUpdate = Partial<Omit<StoreRow, 'id' | 'user_id' | 'created_at'>>
 
-export type ItemInsert = Omit<ItemRow, Timestamps | 'item_type' | 'exact_price' | 'price_bucket' | 'status' | 'reject_reason' | 'note' | 'category_tags' | 'taste_tags'> &
-  Partial<Pick<ItemRow, Timestamps | 'item_type' | 'exact_price' | 'price_bucket' | 'status' | 'reject_reason' | 'note' | 'category_tags' | 'taste_tags'>>
+export type ItemInsert = Omit<ItemRow, Timestamps | 'item_type' | 'exact_price' | 'price_range' | 'status' | 'reject_reason' | 'note' | 'category_tags' | 'taste_tags'> &
+  Partial<Pick<ItemRow, Timestamps | 'item_type' | 'exact_price' | 'price_range' | 'status' | 'reject_reason' | 'note' | 'category_tags' | 'taste_tags'>>
 export type ItemUpdate = Partial<Omit<ItemRow, 'id' | 'user_id' | 'created_at'>>
 
-export type OrderInsert = Omit<OrderRow, Timestamps | 'ordered_at' | 'total_paid' | 'price_bucket' | 'note' | 'source'> &
-  Partial<Pick<OrderRow, Timestamps | 'ordered_at' | 'total_paid' | 'price_bucket' | 'note' | 'source'>>
+export type OrderInsert = Omit<OrderRow, Timestamps | 'ordered_at' | 'total_paid' | 'price_range' | 'note' | 'source'> &
+  Partial<Pick<OrderRow, Timestamps | 'ordered_at' | 'total_paid' | 'price_range' | 'note' | 'source'>>
 export type OrderUpdate = Partial<Omit<OrderRow, 'id' | 'user_id' | 'created_at'>>
 
 export type OrderItemInsert = Omit<OrderItemRow, Timestamps | 'quantity' | 'unit_price' | 'verdict_override' | 'reject_reason'> &
@@ -155,7 +155,7 @@ export type Database = {
           p_items: Json
           p_ordered_at?: string
           p_total_paid?: number
-          p_price_bucket?: PriceBucket
+          p_price_range?: PriceRange
           p_verdict?: OrderVerdict
           p_note?: string
           p_source?: OrderSource
@@ -167,7 +167,7 @@ export type Database = {
       store_status: StoreStatus
       item_type: ItemType
       item_status: ItemStatus
-      price_bucket: PriceBucket
+      price_range: PriceRange
       order_verdict: OrderVerdict
       order_source: OrderSource
       preference_scope: PreferenceScope

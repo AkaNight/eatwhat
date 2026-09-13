@@ -351,6 +351,10 @@ h2 { margin-bottom: 0; font-size: 1.1rem; letter-spacing: -0.02em; }
 .modal-header h2 { font-size: 1.22rem; }
 .modal-header button { width: 40px; height: 40px; border: 0; border-radius: 50%; color: #6f625c; background: #eee7e2; font-size: 1.45rem; cursor: pointer; }
 .data-form { display: grid; gap: 16px; }
+.price-range-field { margin: 0; padding: 0; border: 0; }
+.price-range-field legend { margin-bottom: 7px; color: #554b46; font-size: 0.86rem; font-weight: 700; }
+.price-range-options { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.price-range-options .chip { width: 100%; padding-inline: 8px; white-space: nowrap; }
 .data-form label > span, .reason-options legend { display: block; margin-bottom: 7px; color: #554b46; font-size: 0.86rem; font-weight: 700; }
 .data-form label > span b { color: var(--orange-dark); }
 .data-form input:not([type="radio"]), .data-form textarea, .data-form select { width: 100%; min-height: 49px; padding: 11px 13px; border: 1px solid var(--line); border-radius: 14px; color: var(--ink); background: white; outline: none; }

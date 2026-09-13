@@ -1,13 +1,13 @@
 import { type FormEvent, useState } from 'react'
 import { Modal } from '../../components/ui/Modal'
-import { itemTypeLabels, priceBucketLabels } from '../stores/storeUtils'
-import type { ItemRow, ItemType, PriceBucket } from '../../types/database'
+import { itemTypeLabels, priceRangeLabels } from '../stores/storeUtils'
+import type { ItemRow, ItemType, PriceRange } from '../../types/database'
 
 export interface ItemFormValue {
   name: string
   itemType: ItemType
   exactPrice: number | null
-  priceBucket: PriceBucket | null
+  priceRange: PriceRange | null
   categoryTags: string[]
   tasteTags: string[]
   note: string | null
@@ -29,7 +29,7 @@ export function ItemFormModal({ item, pending, error, onClose, onSave }: ItemFor
   const [name, setName] = useState(item?.name ?? '')
   const [itemType, setItemType] = useState<ItemType>(item?.item_type ?? 'meal')
   const [exactPrice, setExactPrice] = useState(item?.exact_price?.toString() ?? '')
-  const [priceBucket, setPriceBucket] = useState<PriceBucket | ''>(item?.price_bucket ?? '')
+  const [priceRange, setPriceRange] = useState<PriceRange | null>(item?.price_range ?? null)
   const [categoryTags, setCategoryTags] = useState(item?.category_tags.join('，') ?? '')
   const [tasteTags, setTasteTags] = useState(item?.taste_tags.join('，') ?? '')
   const [note, setNote] = useState(item?.note ?? '')
@@ -40,7 +40,7 @@ export function ItemFormModal({ item, pending, error, onClose, onSave }: ItemFor
       name: name.trim(),
       itemType,
       exactPrice: exactPrice === '' ? null : Number(exactPrice),
-      priceBucket: priceBucket || null,
+      priceRange,
       categoryTags: parseTags(categoryTags),
       tasteTags: parseTags(tasteTags),
       note: note.trim() || null,
@@ -66,13 +66,23 @@ export function ItemFormModal({ item, pending, error, onClose, onSave }: ItemFor
             <input type="number" min="0" step="0.01" inputMode="decimal" value={exactPrice} onChange={(event) => setExactPrice(event.target.value)} placeholder="可不填" />
           </label>
         </div>
-        <label>
-          <span>价格感觉</span>
-          <select value={priceBucket} onChange={(event) => setPriceBucket(event.target.value as PriceBucket | '')}>
-            <option value="">不记录</option>
-            {Object.entries(priceBucketLabels).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
-          </select>
-        </label>
+        <fieldset className="price-range-field">
+          <legend>价格区间</legend>
+          <div className="price-range-options">
+            {Object.entries(priceRangeLabels).map(([value, label]) => (
+              <button
+                key={value}
+                type="button"
+                className={`chip${priceRange === value ? ' is-selected' : ''}`}
+                aria-pressed={priceRange === value}
+                onClick={() => setPriceRange((current) => current === value ? null : value as PriceRange)}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+          <small>点一下快速选择，再点一次取消。</small>
+        </fieldset>
         <label>
           <span>品类标签</span>
           <input value={categoryTags} onChange={(event) => setCategoryTags(event.target.value)} placeholder="米线，粉面" />

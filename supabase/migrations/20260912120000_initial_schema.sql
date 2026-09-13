@@ -5,7 +5,7 @@ create extension if not exists pgcrypto with schema extensions;
 create type public.store_status as enum ('active', 'blacklisted');
 create type public.item_type as enum ('meal', 'snack', 'drink', 'side');
 create type public.item_status as enum ('active', 'blacklisted');
-create type public.price_bucket as enum ('low', 'medium', 'high');
+create type public.price_range as enum ('10_30', '30_50', '50_80', '80_100', '100_plus');
 create type public.order_verdict as enum ('edible', 'reject');
 create type public.order_source as enum ('manual', 'screenshot');
 create type public.preference_scope as enum ('long_term', 'temporary');
@@ -31,7 +31,7 @@ create table public.items (
   name text not null check (char_length(btrim(name)) between 1 and 160),
   item_type public.item_type not null default 'meal',
   exact_price numeric(10, 2) check (exact_price is null or exact_price >= 0),
-  price_bucket public.price_bucket,
+  price_range public.price_range,
   status public.item_status not null default 'active',
   reject_reason text,
   note text,
@@ -52,7 +52,7 @@ create table public.orders (
   store_id uuid not null,
   ordered_at timestamptz not null default now(),
   total_paid numeric(10, 2) check (total_paid is null or total_paid >= 0),
-  price_bucket public.price_bucket,
+  price_range public.price_range,
   verdict public.order_verdict not null,
   note text,
   source public.order_source not null default 'manual',
@@ -234,7 +234,7 @@ create or replace function public.create_order_with_items(
   p_items jsonb,
   p_ordered_at timestamptz default now(),
   p_total_paid numeric default null,
-  p_price_bucket public.price_bucket default null,
+  p_price_range public.price_range default null,
   p_verdict public.order_verdict default 'edible',
   p_note text default null,
   p_source public.order_source default 'manual'
@@ -266,9 +266,9 @@ begin
   end if;
 
   insert into public.orders (
-    user_id, store_id, ordered_at, total_paid, price_bucket, verdict, note, source
+    user_id, store_id, ordered_at, total_paid, price_range, verdict, note, source
   ) values (
-    v_user_id, p_store_id, p_ordered_at, p_total_paid, p_price_bucket, p_verdict, p_note, p_source
+    v_user_id, p_store_id, p_ordered_at, p_total_paid, p_price_range, p_verdict, p_note, p_source
   ) returning id into v_order_id;
 
   for v_line in select value from jsonb_array_elements(p_items)
@@ -308,12 +308,12 @@ end;
 $$;
 
 revoke all on function public.create_order_with_items(
-  uuid, jsonb, timestamptz, numeric, public.price_bucket,
+  uuid, jsonb, timestamptz, numeric, public.price_range,
   public.order_verdict, text, public.order_source
 ) from public;
 
 grant execute on function public.create_order_with_items(
-  uuid, jsonb, timestamptz, numeric, public.price_bucket,
+  uuid, jsonb, timestamptz, numeric, public.price_range,
   public.order_verdict, text, public.order_source
 ) to authenticated;
 

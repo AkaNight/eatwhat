@@ -53,7 +53,7 @@ export function TodayPage() {
       const result = await recommendationService.recommend({
         categoryTags: [],
         tasteTags: selectedTastes,
-        pricePreference: preferLowPrice ? 'low' : null,
+        pricePreference: preferLowPrice ? '10_30' : null,
         note: requestNote.trim() || undefined,
       }, {
         sessionId: nextSessionId,

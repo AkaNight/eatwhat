@@ -1,4 +1,4 @@
-import type { ItemRow, ItemType, OrderRow, PriceBucket, StoreRow } from '../../types/database'
+import type { ItemRow, ItemType, OrderRow, PriceRange, StoreRow } from '../../types/database'
 
 export interface StoreSummary {
   store: StoreRow
@@ -13,10 +13,12 @@ export const itemTypeLabels: Record<ItemType, string> = {
   side: '配菜',
 }
 
-export const priceBucketLabels: Record<PriceBucket, string> = {
-  low: '便宜点',
-  medium: '适中',
-  high: '贵一点',
+export const priceRangeLabels: Record<PriceRange, string> = {
+  '10_30': '¥10–30',
+  '30_50': '¥30–50',
+  '50_80': '¥50–80',
+  '80_100': '¥80–100',
+  '100_plus': '¥100+',
 }
 
 export function formatDate(value: string | null): string {
@@ -26,7 +28,7 @@ export function formatDate(value: string | null): string {
 
 export function formatItemPrice(item: ItemRow): string {
   if (item.exact_price !== null) return `¥${item.exact_price.toFixed(2).replace(/\.00$/, '')}`
-  if (item.price_bucket) return priceBucketLabels[item.price_bucket]
+  if (item.price_range) return priceRangeLabels[item.price_range]
   return '未记价格'
 }
 

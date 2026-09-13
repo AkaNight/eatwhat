@@ -11,11 +11,11 @@ function store(id: string, status: StoreRow['status'] = 'active'): StoreRow {
 }
 
 function item(id: string, storeId: string, overrides: Partial<ItemRow> = {}): ItemRow {
-  return { id, user_id: 'user', store_id: storeId, name: id, item_type: 'meal', exact_price: 20, price_bucket: 'low', status: 'active', reject_reason: null, note: null, category_tags: ['米线'], taste_tags: ['带汤'], created_at: stamp, updated_at: stamp, ...overrides }
+  return { id, user_id: 'user', store_id: storeId, name: id, item_type: 'meal', exact_price: 20, price_range: '10_30', status: 'active', reject_reason: null, note: null, category_tags: ['米线'], taste_tags: ['带汤'], created_at: stamp, updated_at: stamp, ...overrides }
 }
 
 function order(id: string, orderedAt: string): OrderRow {
-  return { id, user_id: 'user', store_id: 's1', ordered_at: orderedAt, total_paid: null, price_bucket: null, verdict: 'edible', note: null, source: 'manual', created_at: orderedAt, updated_at: orderedAt }
+  return { id, user_id: 'user', store_id: 's1', ordered_at: orderedAt, total_paid: null, price_range: null, verdict: 'edible', note: null, source: 'manual', created_at: orderedAt, updated_at: orderedAt }
 }
 
 function line(id: string, orderId: string, itemId: string): OrderItemRow {
@@ -50,7 +50,7 @@ describe('recommendFromDataset', () => {
     const oldOrder = order('o1', '2026-08-20T04:00:00.000Z')
     const craving: CravingRow = { id: 'c1', user_id: 'user', label: '米线', active: true, created_at: stamp, resolved_at: null, updated_at: stamp }
     const result = recommendFromDataset(dataset({ orders: [oldOrder], orderItems: [line('l1', 'o1', 'i1')], cravings: [craving] }), {
-      categoryTags: [], tasteTags: ['带汤'], pricePreference: 'low',
+      categoryTags: [], tasteTags: ['带汤'], pricePreference: '10_30',
     }, { now, random: () => 0 })[0]
 
     expect(result.score).toBeGreaterThan(60)
@@ -67,7 +67,7 @@ describe('recommendFromDataset', () => {
   })
 
   it('always provides a short explanation', () => {
-    const result = recommendFromDataset(dataset({ items: [item('plain', 's1', { category_tags: [], taste_tags: [], price_bucket: null, exact_price: null })] }), emptyRequirements, { now, random: () => 0 })[0]
+    const result = recommendFromDataset(dataset({ items: [item('plain', 's1', { category_tags: [], taste_tags: [], price_range: null, exact_price: null })] }), emptyRequirements, { now, random: () => 0 })[0]
     expect(result.reasons).toEqual(['最近没有吃过它'])
   })
 })

@@ -1,9 +1,9 @@
-import type { CravingRow, ItemRow, OrderItemRow, OrderRow, PriceBucket, StoreRow } from '../../types/database'
+import type { CravingRow, ItemRow, OrderItemRow, OrderRow, PriceRange, StoreRow } from '../../types/database'
 
 export interface FoodRequirements {
   categoryTags: string[]
   tasteTags: string[]
-  pricePreference: PriceBucket | null
+  pricePreference: PriceRange | null
   note?: string
 }
 

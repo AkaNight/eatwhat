@@ -165,7 +165,7 @@ export class SupabaseOrderRepository implements OrderRepository {
       p_items: items,
       p_ordered_at: input.orderedAt,
       p_total_paid: input.totalPaid ?? undefined,
-      p_price_bucket: input.priceBucket ?? undefined,
+      p_price_range: input.priceRange ?? undefined,
       p_verdict: input.verdict,
       p_note: input.note ?? undefined,
       p_source: input.source ?? 'manual',

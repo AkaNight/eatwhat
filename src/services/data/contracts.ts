@@ -12,7 +12,7 @@ import type {
   PreferenceInsert,
   PreferenceRow,
   PreferenceUpdate,
-  PriceBucket,
+  PriceRange,
   RecommendationEventInsert,
   RecommendationEventRow,
   StoreInsert,
@@ -50,7 +50,7 @@ export interface CreateOrderInput {
   items: CreateOrderItemInput[]
   orderedAt?: string
   totalPaid?: number | null
-  priceBucket?: PriceBucket | null
+  priceRange?: PriceRange | null
   verdict: OrderVerdict
   note?: string | null
   source?: OrderSource

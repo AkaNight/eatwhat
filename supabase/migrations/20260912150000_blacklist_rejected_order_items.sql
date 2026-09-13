@@ -5,7 +5,7 @@ create or replace function public.create_order_with_items(
   p_items jsonb,
   p_ordered_at timestamptz default now(),
   p_total_paid numeric default null,
-  p_price_bucket public.price_bucket default null,
+  p_price_range public.price_range default null,
   p_verdict public.order_verdict default 'edible',
   p_note text default null,
   p_source public.order_source default 'manual'
@@ -37,9 +37,9 @@ begin
   end if;
 
   insert into public.orders (
-    user_id, store_id, ordered_at, total_paid, price_bucket, verdict, note, source
+    user_id, store_id, ordered_at, total_paid, price_range, verdict, note, source
   ) values (
-    v_user_id, p_store_id, p_ordered_at, p_total_paid, p_price_bucket, p_verdict, p_note, p_source
+    v_user_id, p_store_id, p_ordered_at, p_total_paid, p_price_range, p_verdict, p_note, p_source
   ) returning id into v_order_id;
 
   for v_line in select value from jsonb_array_elements(p_items)
