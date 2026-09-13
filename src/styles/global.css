@@ -520,3 +520,9 @@ h2 { margin-bottom: 0; font-size: 1.1rem; letter-spacing: -0.02em; }
   .deploy-steps > li > span { width: 36px; height: 36px; border-radius: 12px; }
   .guide-footer { display: grid; grid-template-columns: 1fr; }
 }
+.edit-order-banner { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; padding: 13px 15px; border: 1px solid #efb49e; border-radius: 16px; color: #8c4228; background: #fff1ea; font-size: .84rem; font-weight: 750; }
+.edit-order-banner button { min-height: 36px; padding: 7px 11px; border: 0; border-radius: 10px; color: #6d5c54; background: white; font-size: .74rem; font-weight: 750; cursor: pointer; }
+.meal-history-card.is-editing { border-color: var(--orange); box-shadow: 0 0 0 3px rgba(255,107,53,.1); }
+.history-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 13px; }
+.history-actions button { min-height: 40px; border: 1px solid #dfd4cd; border-radius: 12px; color: #5f544e; background: #faf7f5; font-size: .78rem; font-weight: 750; cursor: pointer; }
+.history-actions button.danger { color: #a33f2a; border-color: #f0c8bd; background: #fff1ed; }

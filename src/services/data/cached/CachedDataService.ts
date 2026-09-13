@@ -113,6 +113,19 @@ export class CachedDataService implements DataService {
         void this.syncAll().catch(() => undefined)
         return id
       }),
+      update: (id, input) => this.write(async () => {
+        await remote.orders.update(id, input)
+        await this.syncAll()
+      }),
+      remove: (id) => this.write(async () => {
+        await remote.orders.remove(id)
+        await this.updateCache(async () => {
+          await localDatabase.transaction('rw', [localDatabase.orders, localDatabase.orderItems], async () => {
+            await localDatabase.orders.delete(id)
+            await localDatabase.orderItems.where('order_id').equals(id).delete()
+          })
+        })
+      }),
     }
 
     this.cravings = {

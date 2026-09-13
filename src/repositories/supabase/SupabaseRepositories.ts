@@ -173,6 +173,33 @@ export class SupabaseOrderRepository implements OrderRepository {
     if (error) fail(error)
     return data
   }
+
+  async update(id: string, input: CreateOrderInput): Promise<void> {
+    const items: Json = input.items.map((item) => ({
+      item_id: item.itemId,
+      quantity: item.quantity ?? 1,
+      unit_price: item.unitPrice ?? null,
+      verdict_override: item.verdictOverride ?? null,
+      reject_reason: item.rejectReason ?? null,
+    }))
+    const { error } = await this.client.rpc('update_order_with_items', {
+      p_order_id: id,
+      p_store_id: input.storeId,
+      p_items: items,
+      p_ordered_at: input.orderedAt,
+      p_total_paid: input.totalPaid ?? undefined,
+      p_price_range: input.priceRange ?? undefined,
+      p_verdict: input.verdict,
+      p_note: input.note ?? undefined,
+      p_source: input.source ?? 'manual',
+    })
+    if (error) fail(error)
+  }
+
+  async remove(id: string): Promise<void> {
+    const { error } = await this.client.from('orders').delete().eq('id', id)
+    if (error) fail(error)
+  }
 }
 
 export class SupabaseCravingRepository implements CravingRepository {

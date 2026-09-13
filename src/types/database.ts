@@ -149,6 +149,20 @@ export type Database = {
     }
     Views: Record<never, never>
     Functions: {
+      update_order_with_items: {
+        Args: {
+          p_order_id: string
+          p_store_id: string
+          p_items: Json
+          p_ordered_at?: string
+          p_total_paid?: number
+          p_price_range?: PriceRange
+          p_verdict?: OrderVerdict
+          p_note?: string
+          p_source?: OrderSource
+        }
+        Returns: undefined
+      }
       create_order_with_items: {
         Args: {
           p_store_id: string

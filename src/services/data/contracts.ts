@@ -62,6 +62,8 @@ export interface OrderRepository {
   listAllItems(): Promise<OrderItemRow[]>
   listItems(orderId: string): Promise<OrderItemRow[]>
   create(input: CreateOrderInput): Promise<string>
+  update(id: string, input: CreateOrderInput): Promise<void>
+  remove(id: string): Promise<void>
 }
 
 export interface CravingRepository {
