@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 
-const repositoryUrl = 'https://github.com/AkaNight/eatwhat'
+const repositoryUrl = 'https://github.com/AkaNight/eatwhat-template'
 
 export function SelfDeployPage() {
   return (
@@ -19,7 +19,7 @@ export function SelfDeployPage() {
 
       <ol className="deploy-steps">
         <li>
-          <span>1</span><div><h2>复制项目</h2><p>在源码页面点击 <strong>Fork</strong>，把项目复制到自己的 GitHub 账号。</p></div>
+          <span>1</span><div><h2>复制项目</h2><p>在源码页面点击 <strong>Use this template</strong>，把一份干净副本创建到自己的 GitHub 账号。</p></div>
         </li>
         <li>
           <span>2</span><div><h2>创建 Supabase 项目</h2><p>新建项目后，在 <strong>SQL Editor</strong> 中按文件名顺序运行 <code>supabase/migrations</code> 目录里的 SQL 文件。</p></div>
