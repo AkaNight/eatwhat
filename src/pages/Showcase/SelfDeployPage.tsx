@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 
-const repositoryUrl = 'https://github.com/AkaNight/eatwhat-template'
+const repositoryUrl = 'https://github.com/AkaNight/eatwhat'
 
 export function SelfDeployPage() {
   return (
