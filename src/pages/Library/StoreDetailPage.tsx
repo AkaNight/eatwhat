@@ -143,7 +143,7 @@ export function StoreDetailPage() {
     setActionError(null)
     try {
       await getDataService().stores.remove(store.id)
-      navigate('/library', { replace: true })
+      navigate('/app/library', { replace: true })
     } catch (error) {
       setActionError(readableDataError(error))
       setSaving(false)
@@ -151,15 +151,15 @@ export function StoreDetailPage() {
   }
 
   if (loading) return <section className="page"><div className="library-state" role="status">正在打开店铺…</div></section>
-  if (loadError) return <section className="page"><Link className="back-link" to="/library">← 外卖库</Link><div className="library-state is-error"><p>{loadError}</p><button className="secondary-button" type="button" onClick={() => void loadStore()}>重试</button></div></section>
-  if (!store) return <section className="page"><Link className="back-link" to="/library">← 外卖库</Link><div className="library-state">没有找到这家店。</div></section>
+  if (loadError) return <section className="page"><Link className="back-link" to="/app/library">← 外卖库</Link><div className="library-state is-error"><p>{loadError}</p><button className="secondary-button" type="button" onClick={() => void loadStore()}>重试</button></div></section>
+  if (!store) return <section className="page"><Link className="back-link" to="/app/library">← 外卖库</Link><div className="library-state">没有找到这家店。</div></section>
 
   const activeItems = items.filter((item) => item.status === 'active')
   const rejectedItems = items.filter((item) => item.status === 'blacklisted')
 
   return (
     <section className="page store-detail-page">
-      <Link className="back-link" to="/library">← 外卖库</Link>
+      <Link className="back-link" to="/app/library">← 外卖库</Link>
       <header className="detail-header">
         <div>
           <div className="detail-title-line">

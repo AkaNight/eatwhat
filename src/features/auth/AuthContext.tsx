@@ -13,17 +13,12 @@ import {
   hasSupabaseConfig,
 } from '../../services/data/supabase/client'
 
-interface SignUpResult {
-  needsEmailConfirmation: boolean
-}
-
 interface AuthContextValue {
   configured: boolean
   loading: boolean
   session: Session | null
   user: User | null
   signIn(email: string, password: string): Promise<void>
-  signUp(email: string, password: string): Promise<SignUpResult>
   signOut(): Promise<void>
 }
 
@@ -85,15 +80,6 @@ export function AuthProvider({ children }: PropsWithChildren) {
     if (error) throw friendlyAuthError(error)
   }, [])
 
-  const signUp = useCallback(async (email: string, password: string): Promise<SignUpResult> => {
-    const { data, error } = await getSupabaseBrowserClient().auth.signUp({
-      email: email.trim(),
-      password,
-    })
-    if (error) throw friendlyAuthError(error)
-    return { needsEmailConfirmation: data.session === null }
-  }, [])
-
   const signOut = useCallback(async () => {
     const { error } = await getSupabaseBrowserClient().auth.signOut()
     if (error) throw friendlyAuthError(error)
@@ -105,9 +91,8 @@ export function AuthProvider({ children }: PropsWithChildren) {
     session,
     user: session?.user ?? null,
     signIn,
-    signUp,
     signOut,
-  }), [configured, loading, session, signIn, signOut, signUp])
+  }), [configured, loading, session, signIn, signOut])
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }

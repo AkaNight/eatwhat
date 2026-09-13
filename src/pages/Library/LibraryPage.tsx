@@ -105,7 +105,7 @@ export function LibraryPage() {
             const availableCount = items.filter((item) => item.status === 'active').length
             const rejectedCount = items.length - availableCount
             return (
-              <Link className={`store-card${store.status === 'blacklisted' ? ' is-blacklisted' : ''}`} to={`/library/${store.id}`} key={store.id}>
+              <Link className={`store-card${store.status === 'blacklisted' ? ' is-blacklisted' : ''}`} to={`/app/library/${store.id}`} key={store.id}>
                 <div className="store-card-top">
                   <div>
                     <h2>{store.name}</h2>
