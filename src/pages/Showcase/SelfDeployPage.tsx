@@ -28,7 +28,7 @@ export function SelfDeployPage() {
           <span>3</span><div><h2>创建自己的登录账号</h2><p>在 Supabase 的 <strong>Authentication → Users</strong> 中添加用户。个人使用时建议关闭新用户公开注册。</p></div>
         </li>
         <li>
-          <span>4</span><div><h2>填入连接信息</h2><p>在 GitHub 仓库的 <strong>Settings → Secrets and variables → Actions</strong> 添加下面两个 Repository secrets：</p><pre><code>VITE_SUPABASE_URL{`\n`}VITE_SUPABASE_PUBLISHABLE_KEY</code></pre><p>它们来自 Supabase 的项目 API 设置。Publishable Key 可以放在前端；不要使用 service_role key。</p></div>
+          <span>4</span><div><h2>填入连接信息</h2><p>在 GitHub 仓库的 <strong>Settings → Secrets and variables → Actions</strong> 添加 Repository variable <strong>ENABLE_PAGES_DEPLOYMENT=true</strong>，再添加下面两个 Repository secrets：</p><pre><code>VITE_SUPABASE_URL{`\n`}VITE_SUPABASE_PUBLISHABLE_KEY</code></pre><p>它们来自 Supabase 的项目 API 设置。Publishable Key 可以放在前端；不要使用 service_role key。</p></div>
         </li>
         <li>
           <span>5</span><div><h2>打开 GitHub Pages</h2><p>进入 <strong>Settings → Pages</strong>，把 Source 设为 <strong>GitHub Actions</strong>。回到 Actions 手动运行一次 Deploy，之后每次更新主分支都会自动发布。</p></div>

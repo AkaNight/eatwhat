@@ -16,6 +16,7 @@ concurrency:
 
 jobs:
   build:
+    if: ${{ vars.ENABLE_PAGES_DEPLOYMENT == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

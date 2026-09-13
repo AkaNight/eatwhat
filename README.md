@@ -55,7 +55,7 @@ npm run build
 
 仓库自带 `.github/workflows/deploy-pages.yml`：
 
-1. 在仓库 Actions secrets 中添加 `VITE_SUPABASE_URL` 和 `VITE_SUPABASE_PUBLISHABLE_KEY`。
+1. 在仓库 Actions variables 中添加 `ENABLE_PAGES_DEPLOYMENT=true`，再在 Actions secrets 中添加 `VITE_SUPABASE_URL` 和 `VITE_SUPABASE_PUBLISHABLE_KEY`。
 2. 在 Settings → Pages 中选择 GitHub Actions。
 3. 手动运行一次 Deploy，之后推送 `main` 会自动测试并发布。
 4. 在 Supabase Authentication → URL Configuration 中填写自己的 Pages 地址。
